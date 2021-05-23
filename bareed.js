@@ -131,9 +131,9 @@ class Vendor extends Person {
  * new customer = new Customer(name, x, y);
  **********************************************************/
 class Customer extends Person{
-constructor (name,x,y,wallet=10){
-  super(name,x,y,wallet);
-this.wallet = new Wallet();
+constructor (name,x,y){
+  super(name,x,y);
+this.wallet = new Wallet(10);
 
 }
 
