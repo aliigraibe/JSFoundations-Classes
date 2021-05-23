@@ -27,8 +27,8 @@ class Point {
     let x = Math.random() * (maxX || 100);
     let y = Math.random() * (maxY || 100);
     return new Point(x, y);
-  };
-}
+  };}
+
 
 /**********************************************************
  * Wallet: keeps track of money
@@ -93,11 +93,12 @@ moveTo = (Point) =>(this.location = Point);
  *
  * new vendor = new Vendor(name, x, y);
  **********************************************************/
-class Vendor extends Person{
-  constructor(name,x,y,wallet,range=5,price=1) {
+class Vendor extends Person {
+  constructor(name , x , y , wallet=0 , range=5 , price=1  ){
     super(name,x,y,wallet);
     this.range =   range;
     this.price =  price;
+
   }
 
   sellTo = (customer, numberOfIceCreams)=>{
@@ -105,7 +106,7 @@ class Vendor extends Person{
     customer.wallet.debit(this.price * numberOfIceCreams)  
     this.wallet.credit(this.price * numberOfIceCreams)
 
-  }
+  };
 
 }
 
@@ -129,8 +130,21 @@ class Vendor extends Person{
  *
  * new customer = new Customer(name, x, y);
  **********************************************************/
-class Customer {
-  // implement Customer!
+class Customer extends Person{
+constructor (name,x,y,wallet=10){
+  super(name,x,y,wallet);
+this.wallet = new Wallet();
+
+}
+
+_isInRange = (vendor) =>    this.location.distanceTo(vendor.location) <= vendor.range
+
+_haveEnoughMoney = (vendor, numberOfIceCreams) =>   this.wallet.money >= (numberOfIceCreams*vendor.price)
+requestIceCream = (vendor, numberOfIceCreams) =>
+{ 
+  if (this._isInRange(vendor) && this._haveEnoughMoney(vendor,numberOfIceCreams))
+  vendor.sellTo(this,numberOfIceCreams)
+}
 }
 
 export { Point, Wallet, Person, Customer, Vendor };
